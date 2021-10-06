@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +6,27 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-advanced';
+  public innerWidth: number=0;
+  public defaultSidebar='';
+  public showMobileMenu = false;
+  public sidebartype = 'full';  
+  ngOnInit() {
+      this.defaultSidebar = this.sidebartype;
+    this.handleSidebar();
+  }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event:string) {
+      this.handleSidebar();
+    }
+
+    handleSidebar() {
+
+      this.innerWidth = window.innerWidth;
+      if (this.innerWidth < 1170) {
+	this.sidebartype = 'mini-sidebar';
+      } else {
+	this.sidebartype = this.defaultSidebar;
+      }
+  }
 }
